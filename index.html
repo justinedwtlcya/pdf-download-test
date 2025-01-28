@@ -1,0 +1,39 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
+<div id="content" style="padding: 20px; border: 1px solid #333; border-radius: 10px; max-width: 600px; margin: 20px auto; text-align: center; font-family: Arial, sans-serif; background-color: #f9f9f9;">
+  <h1>Download This Content as PDF</h1>
+  <p>This is some sample content that will appear in the PDF. You can replace this content with your own!</p>
+  <ul>
+    <li>Customizable text</li>
+    <li>Images and HTML content</li>
+    <li>Fully styled PDF output</li>
+  </ul>
+</div>
+
+<div style="text-align: center; margin-top: 20px;">
+  <button onclick="downloadPDF()" style="padding: 10px 20px; font-size: 16px; border: none; background-color: #007bff; color: white; border-radius: 5px; cursor: pointer;">Download as PDF</button>
+</div>
+
+<script>
+  function downloadPDF() {
+    const content = document.getElementById('content'); // The element to capture
+
+    html2canvas(content).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jspdf.jsPDF('p', 'mm', 'a4'); // Create PDF object
+
+      const imgWidth = 190; // Width in mm
+      const pageHeight = 297; // Height in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      let position = 10; // Start position on page
+
+      // Add image to the PDF
+      pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+
+      // Save PDF
+      pdf.save('download.pdf');
+    });
+  }
+</script>
